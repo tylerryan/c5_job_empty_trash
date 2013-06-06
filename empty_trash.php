@@ -17,7 +17,12 @@ class EmptyTrash extends Job {
 
 		$pl = new PageList;
 		$pl->filterByParentID(Page::getByPath('/!trash')->getCollectionID());
-		$pages = $pl->get(10);
+		$pl->ignorePermissions(true);
+		$pl->displayUnapprovedPages();
+		$pl->includeSystemPages();
+		$pl->includeInactivePages();
+
+		$pages = $pl->get();
 		$total = $pl->getTotal();
 
 		while ($page = array_pop($pages)) {
